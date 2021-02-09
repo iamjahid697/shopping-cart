@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0 </h5>
-                        <h5>$1,278</h5>
+                        <h5 id="sub-total">$1,278</h5>
+                        <h5 id ="tax-amount">$0 </h5>
+                        <h5 id ="grand-total">$1,278</h5>
                      </div>
                   </div>
                </div>
@@ -78,8 +78,7 @@
       </div>
          <script>
             function handleProductChange(product, isIncrease) {
-               const productInput = document.getElementById(product + "-count");
-               const productCount = parseInt(productInput.value);
+               const productCount =getInputValue(product);
                let productNewCount = productCount;
                if (isIncrease == true) {
                   productNewCount = productCount + 1;
@@ -87,7 +86,7 @@
                if (isIncrease == false && productCount > 0) {
                   productNewCount = productCount - 1;
                }
-               productInput.value = productNewCount;
+               document.getElementById(product +'-count').value = productNewCount;
                let productTotal = 0;
                if (product == 'phone') {
                   productTotal = productNewCount * 1219;
@@ -96,7 +95,44 @@
                   productTotal = productNewCount * 59;
                }
                document.getElementById(product + '-total').innerText = '$' + productTotal;
+               calculateSubTotal();
             }
+            function calculateSubTotal() {
+                  const phoneCount = getInputValue('phone');
+                  const caseCount = getInputValue('case');
+
+                  const subTotal = phoneCount * 1219 + caseCount * 59;
+                  document.getElementById('sub-total').innerText = '$' + subTotal;
+                  
+                  const tax =Math.round(subTotal*0.1);
+                  document.getElementById('tax-amount').innerText ='$' + tax;
+
+                  const grandTotal = subTotal + tax;
+                  document.getElementById('grand-total').innerText = '$' + grandTotal;
+
+               }
+            function getInputValue(product) {
+                  const productInput = document.getElementById(product+ '-count');
+                  const productCount = parseInt(productInput.value);
+                  return productCount;
+            }
+
+
+
+
+
+
+            // function calculateSubTotal() {
+            //    const phoneInput = document.getElementById('phone-count');
+            //    const phoneCount = parseInt(phoneInput.value);
+
+            //    const caseInput = document.getElementById('case-count');
+            //    const caseCount = parseInt(caseInput.value);
+
+            //    const subTotal = phoneCount * 1219 + caseCount * 59;
+            //    document.getElementById('sub-total').innerText = '$' + subTotal ;
+
+            // }
          </script>
    </section>
 
